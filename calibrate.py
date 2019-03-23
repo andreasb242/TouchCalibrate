@@ -134,19 +134,19 @@ def doCalibrate():
 
 	print("To apply now:")
 	print("--------------------------------------------")
-	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" " + calibrationMatrix)
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"Coordinate Transformation Matrix\" " + calibrationMatrix)
 	print("--------------------------------------------\n")
 	print("\n")
 
 	print("To reset to default:")
 	print("--------------------------------------------")
-	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" 1 0 0 0 1 0 0 0 1")
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"Coordinate Transformation Matrix\" 1 0 0 0 1 0 0 0 1")
 	print("--------------------------------------------\n")
 	print("\n")
 
 	print("To reset to inverted axes:")
 	print("--------------------------------------------")
-	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" 0 -1 1 1 0 0 0 0 1")
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"Coordinate Transformation Matrix\" 0 -1 1 1 0 0 0 0 1")
 	print("--------------------------------------------\n")
 	print("\n")
 
