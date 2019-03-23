@@ -124,7 +124,7 @@ def doCalibrate():
 
 	print("To apply permanent, store to:")
 	print("/etc/X11/xorg.conf.d/99-calibration.conf or to")
-	print("/etc/shared/X11/xorg.conf.d/99-calibration.conf")
+	print("/usr/share/X11/xorg.conf.d/99-calibration.conf")
 	print("--------------------------------------------\n")
 	print("Section \"InputClass\"")
 	print("	Identifier	\"calibration\"")
