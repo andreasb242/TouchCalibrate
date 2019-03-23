@@ -121,7 +121,8 @@ def doCalibrate():
 	calibrationMatrix += " " + str(matrix[2][0]) + " " + str(matrix[2][1]) + " " + str(matrix[2][2])
 
 	print("To apply permanent, store to:")
-	print("/etc/X11/xorg.conf.d/99-calibration.conf")
+	print("/etc/X11/xorg.conf.d/99-calibration.conf or to")
+	print("/etc/shared/X11/xorg.conf.d/99-calibration.conf")
 	print("--------------------------------------------\n")
 	print("Section \"InputClass\"")
 	print("	Identifier	\"calibration\"")
@@ -133,15 +134,22 @@ def doCalibrate():
 
 	print("To apply now:")
 	print("--------------------------------------------")
-	print("xinput set-int-prop \"" + calibDevice + "\" \"CalibrationMatrix\" " + calibrationMatrix)
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" " + calibrationMatrix)
 	print("--------------------------------------------\n")
 	print("\n")
 
 	print("To reset to default:")
 	print("--------------------------------------------")
-	print("xinput set-int-prop \"" + calibDevice + "\" \"CalibrationMatrix\" 1 0 0 0 1 0 0 0 1")
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" 1 0 0 0 1 0 0 0 1")
 	print("--------------------------------------------\n")
 	print("\n")
+
+	print("To reset to inverted axes:")
+	print("--------------------------------------------")
+	print("xinput set-prop --type=float \"" + calibDevice + "\" \"CalibrationMatrix\" 0 -1 1 1 0 0 0 0 1")
+	print("--------------------------------------------\n")
+	print("\n")
+
 
 def mouseEventPressed(window, event):
 	global calibData
