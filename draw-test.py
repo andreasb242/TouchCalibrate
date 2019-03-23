@@ -44,8 +44,7 @@ def mouseEventPressed(window, event):
 
 darea.connect("draw", paintWidget)
 
-darea.set_events(darea.get_events()
-	| Gdk.EventMask.BUTTON_PRESS_MASK)
+darea.set_events(darea.get_events() | Gdk.EventMask.BUTTON_PRESS_MASK)
 
 
 darea.connect('button-press-event', mouseEventPressed)
