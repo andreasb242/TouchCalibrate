@@ -5,6 +5,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from gi.repository import Gdk
 import math
+import numpy as np
 
 darea = Gtk.DrawingArea()
 calibDataScreenPos = [[-1, -1], [-1, -1], [-1, -1], [-1, -1]]
@@ -69,14 +70,14 @@ def paintWidget(widget, cr):
 def doCalibrate():
 	# Hints: https://wiki.archlinux.org/index.php/Talk:Calibrating_Touchscreen
 	size = darea.get_allocation()
-	sw = size.width
-	sh = size.height
+	screen_width = size.width
+	screen_height = size.height
 	
 	## TODO add parameter to configure device
 	calibDevice = "silead_ts"
 
 	print("\nCalibration finished.")
-	print("Screen size: %i / %i" % (sw, sh))
+	print("Screen size: %i / %i" % (screen_width, screen_height))
 	i = 0
 
 	for cd in calibData:
@@ -102,9 +103,22 @@ def doCalibrate():
 			calibData[0][0] = calibData[0][1]
 			calibData[0][1] = tmp
 
-	calibrationMatrix  = "2.074595 0 0"
-	calibrationMatrix += "0 2.688341 0"
-	calibrationMatrix += "0 0 1"
+	a = (screen_width * 6 / 8) / (calibData[3][0] - calibData[0][0])
+	c = ((screen_width / 8) - (a * calibData[0][0])) / screen_width
+	e = (screen_height * 6 / 8) / (calibData[3][1] - calibData[0][1])
+	f = ((screen_height / 8) - (e * calibData[0][1])) / screen_height
+	
+	matrix = np.array([[a, 0.0, c], [0.0, e, f], [0.0, 0.0, 1.0]])
+	if xyAxes == 1:
+		swapAxes = np.array([[0, -1, 1], [1, 0, 0], [0, 0, 1]])
+		matrix = np.matmul(matrix, swapAxes)
+
+	print("\nCalibration Matrix:")
+	print(matrix)
+
+	calibrationMatrix  = str(matrix[0][0]) + " " + str(matrix[0][1]) + " " + str(matrix[0][2])
+	calibrationMatrix += " " + str(matrix[1][0]) + " " + str(matrix[1][1]) + " " + str(matrix[1][2])
+	calibrationMatrix += " " + str(matrix[2][0]) + " " + str(matrix[2][1]) + " " + str(matrix[2][2])
 
 	print("To apply permanent, store to:")
 	print("/etc/X11/xorg.conf.d/99-calibration.conf")
@@ -115,8 +129,19 @@ def doCalibrate():
 	print("	Option	\"CalibrationMatrix\"	\"" + calibrationMatrix + "\"")
 	print("	Driver	\"libinput\"")
 	print("EndSection")
-	print("\n--------------------------------------------")
+	print("\n--------------------------------------------\n")
 
+	print("To apply now:")
+	print("--------------------------------------------")
+	print("xinput set-int-prop \"" + calibDevice + "\" \"CalibrationMatrix\" " + calibrationMatrix)
+	print("--------------------------------------------\n")
+	print("\n")
+
+	print("To reset to default:")
+	print("--------------------------------------------")
+	print("xinput set-int-prop \"" + calibDevice + "\" \"CalibrationMatrix\" 1 0 0 0 1 0 0 0 1")
+	print("--------------------------------------------\n")
+	print("\n")
 
 def mouseEventPressed(window, event):
 	global calibData
