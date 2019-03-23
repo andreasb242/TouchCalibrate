@@ -109,9 +109,11 @@ def doCalibrate():
 	f = ((screen_height / 10) - (e * calibData[0][1])) / screen_height
 
 	matrix = np.array([[a, 0.0, c], [0.0, e, f], [0.0, 0.0, 1.0]])
-#	if xyAxes == 1:
-#		swapAxes = np.array([[0, -1, 1], [1, 0, 0], [0, 0, 1]])
-#		matrix = np.matmul(matrix, swapAxes)
+	
+	## TODO this case is not tested
+	if xyAxes == 1:
+		swapAxes = np.array([[0, 1, 0], [1, 0, 0], [0, 0, 1]])
+		matrix = np.matmul(matrix, swapAxes)
 
 	print("\nCalibration Matrix:")
 	print(matrix)
