@@ -103,15 +103,15 @@ def doCalibrate():
 			calibData[0][0] = calibData[0][1]
 			calibData[0][1] = tmp
 
-	a = (screen_width * 6 / 8) / (calibData[3][0] - calibData[0][0])
-	c = ((screen_width / 8) - (a * calibData[0][0])) / screen_width
-	e = (screen_height * 6 / 8) / (calibData[3][1] - calibData[0][1])
-	f = ((screen_height / 8) - (e * calibData[0][1])) / screen_height
-	
+	a = (screen_width * 8 / 10) / (calibData[3][0] - calibData[0][0])
+	c = ((screen_width / 10) - (a * calibData[0][0])) / screen_width
+	e = (screen_height * 8 / 10) / (calibData[3][1] - calibData[0][1])
+	f = ((screen_height / 10) - (e * calibData[0][1])) / screen_height
+
 	matrix = np.array([[a, 0.0, c], [0.0, e, f], [0.0, 0.0, 1.0]])
-	if xyAxes == 1:
-		swapAxes = np.array([[0, -1, 1], [1, 0, 0], [0, 0, 1]])
-		matrix = np.matmul(matrix, swapAxes)
+#	if xyAxes == 1:
+#		swapAxes = np.array([[0, -1, 1], [1, 0, 0], [0, 0, 1]])
+#		matrix = np.matmul(matrix, swapAxes)
 
 	print("\nCalibration Matrix:")
 	print(matrix)

@@ -25,7 +25,7 @@ def paintWidget(widget, cr):
 	cr.show_text("Press any key to quit - touch to draw a point")
 
 	cr.set_source_rgb(0, 1, 0)
-	circleSize = 50
+	circleSize = 20
 
 	for point in clicks:
 		cr.save()
